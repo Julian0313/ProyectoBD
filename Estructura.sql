@@ -97,6 +97,18 @@ CREATE TABLE persona (
 	,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
 );
 
+CREATE TABLE producto (
+	id_producto INT IDENTITY(1, 1) PRIMARY KEY 
+	,nombre VARCHAR(128) NOT NULL
+	,descripcion VARCHAR(128) NOT NULL
+	,precio DECIMAL(18, 0) NOT NULL
+	,cantidad INT NOT NULL
+	,imagenUrl VARCHAR(128) 
+	,fechaCreacion DATETIME NULL
+	,fechaModificacion DATETIME NULL
+	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	);
+
 
 
 
