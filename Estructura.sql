@@ -4,11 +4,6 @@ GO
 USE TiendaBdd
 GO
 
-CREATE TABLE estado(
-	id_estado BIT PRIMARY KEY
-	,nombre VARCHAR(50) NOT NULL
-	);
-
 CREATE TABLE modulo (
     id_modulo INT PRIMARY KEY
     ,nombre VARCHAR(50) NOT NULL
@@ -17,35 +12,35 @@ CREATE TABLE modulo (
 CREATE TABLE permisos(
 	id_permiso INT PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
+	,id_modulo INT 
 	);
 
 CREATE TABLE rol(
 	id_rol INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
-	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	,activo BIT 
 	);
 
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(100) NOT NULL
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
-	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	,id_modulo INT 
+	,activo BIT 
 );
 
 CREATE TABLE permisos_panel(
 	id_permisos_panel INT IDENTITY(1, 1) PRIMARY KEY
-	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
-	,fk_id_panel INT FOREIGN KEY (fk_id_panel) REFERENCES panel(id_panel)
-	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	,id_rol INT 
+	,id_modulo INT
+	,id_panel INT 
+	,activo BIT 
 );
 
 CREATE TABLE permisos_rol(
 	id_rol_permiso INT IDENTITY(1, 1) PRIMARY KEY
-	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
-	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permisos(id_permiso)
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
+	,id_rol INT 
+	,id_permiso INT 
+	,id_modulo INT
 	,crear BIT 
 	,leer BIT 
 	,actualizar BIT 
@@ -54,9 +49,9 @@ CREATE TABLE permisos_rol(
 
 CREATE TABLE permisos_ususario(	
 	id_permisos_ususario INT IDENTITY(1, 1) PRIMARY KEY
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
-	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permisos(id_permiso)
-	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	,id_modulo INT 
+	,id_permiso INT
+	,activo BIT 
 );
 
 CREATE TABLE usuario (
@@ -70,15 +65,15 @@ CREATE TABLE usuario (
 	,fecha_bloqueo DATETIME NOT NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
-    ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
-    ,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+    ,id_rol INT 
+    ,activo BIT 
 );
 
 CREATE TABLE historico_contrasena(
 	id_historico INT IDENTITY(1, 1) PRIMARY KEY
 	,contrasena VARCHAR(50) NOT NULL
 	,fecha DATETIME NULL
-	,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
+	,id_usuario INT 
 );
 
 CREATE TABLE persona (
@@ -93,8 +88,8 @@ CREATE TABLE persona (
     ,celular VARCHAR(20) NOT NULL
     ,fecha_creacion DATETIME NULL
     ,fecha_modificacion DATETIME NULL
-    ,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
-	,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
+    ,activo BIT 
+	,id_usuario INT 
 );
 
 CREATE TABLE producto (
@@ -106,7 +101,7 @@ CREATE TABLE producto (
 	,imagenUrl VARCHAR(128) 
 	,fechaCreacion DATETIME NULL
 	,fechaModificacion DATETIME NULL
-	,fk_id_estado BIT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+	,activo BIT 
 	);
 
 
