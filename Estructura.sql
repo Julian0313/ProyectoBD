@@ -5,14 +5,15 @@ USE TiendaBdd
 GO
 
 CREATE TABLE modulo (
-    id_modulo INT PRIMARY KEY
+    id_modulo VARCHAR PRIMARY KEY
+	,abreviatura VARCHAR(50) NOT NULL
     ,nombre VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE permisos(
 	id_permiso INT PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
-	,id_modulo INT 
+	,id_modulo INT 2
 	);
 
 CREATE TABLE rol(
@@ -59,8 +60,8 @@ CREATE TABLE usuario (
     ,usuario VARCHAR(50) NOT NULL
     ,contrasena VARCHAR(50) NOT NULL
 	,segundo_factor BIT NOT NULL
-	,mostrar_segundo_fa BIT NOT NULL
-	,intento INT NOT NULL
+	,ver_segundo_factor BIT NOT NULL
+	,intentos INT NOT NULL
 	,bloqueo BIT NOT NULL
 	,fecha_bloqueo DATETIME NOT NULL
     ,fecha_creacion DATETIME NOT NULL
@@ -90,23 +91,11 @@ CREATE TABLE persona (
     ,fecha_modificacion DATETIME NULL
     ,activo BIT 
 	,id_usuario INT 
-);
+);	
 
-CREATE TABLE producto (
-	id_producto INT IDENTITY(1, 1) PRIMARY KEY 
-	,nombre VARCHAR(128) NOT NULL
-	,descripcion VARCHAR(128) NOT NULL
-	,precio DECIMAL(18, 0) NOT NULL
-	,cantidad INT NOT NULL
-	,imagenUrl VARCHAR(128) 
-	,fechaCreacion DATETIME NULL
-	,fechaModificacion DATETIME NULL
-	,activo BIT 
-	);	
-
-CREATE TABLE Auditoria (
+CREATE TABLE auditoria (
     id_auditoria INT IDENTITY(1,1) PRIMARY KEY
-    ,fecha_evento DATETIME NOT NULL,
+    ,fecha_evento DATETIME NOT NULL
     ,tipo_evento VARCHAR(50) NOT NULL
     ,nombre_tabla VARCHAR(100)
     ,id_resgustro_afectado INT
@@ -114,7 +103,7 @@ CREATE TABLE Auditoria (
     ,detalles VARCHAR(MAX)
 );
 
-CREATE TABLE HistorialAccesoUsuario (
+CREATE TABLE historial_accesoUsuario (
     id_historial_acceso INT IDENTITY(1,1) PRIMARY KEY
     ,id_usuario INT
     ,fecha_inicio_sesion DATETIME NOT NULL
