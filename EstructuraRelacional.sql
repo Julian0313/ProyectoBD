@@ -42,7 +42,7 @@ CREATE TABLE panel(
     );
 
 CREATE TABLE permiso_panel(
-	id_permisos_panel INT IDENTITY(1, 1) PRIMARY KEY
+	id_permiso_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
 	,fk_id_panel INT FOREIGN KEY (fk_id_panel) REFERENCES panel(id_panel)
@@ -53,15 +53,15 @@ CREATE TABLE permiso_panel(
 CREATE TABLE permiso_rol(
 	id_rol_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
-	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permisos(id_permiso)
+	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
 	,fk_id_accion INT FOREIGN KEY (fk_id_accion) REFERENCES accion(id_accion)
 	);
 
 CREATE TABLE permiso_ususario(	
-	id_permisos_ususario INT IDENTITY(1, 1) PRIMARY KEY
+	id_permiso_ususario INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
-	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permisos(id_permiso)
+	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
     ,fk_id_accion INT FOREIGN KEY (fk_id_accion) REFERENCES accion(id_accion)
     );
@@ -70,10 +70,10 @@ CREATE TABLE usuario (
     id_usuario INT IDENTITY(1, 1) PRIMARY KEY
     ,usuario VARCHAR(50) NOT NULL
     ,contrasena VARCHAR(50) NOT NULL
-	,segundo_factor INT NOT NULL
-	,mostrar_segundo_fa INT NOT NULL
+	,segundo_factor BIT NOT NULL
+	,mostrar_segundo_fa BIT NOT NULL
 	,intento INT NOT NULL
-	,bloqueo INT NOT NULL
+	,bloqueo BIT NOT NULL
 	,fecha_bloqueo DATETIME NOT NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL

@@ -37,7 +37,7 @@ CREATE TABLE panel(
 );
 
 CREATE TABLE permiso_panel(
-	id_permisos_panel INT IDENTITY(1, 1) PRIMARY KEY
+	id_permiso_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,id_rol INT 
 	,id_modulo INT
 	,id_panel INT 
@@ -54,7 +54,7 @@ CREATE TABLE permiso_rol(
 	);
 
 CREATE TABLE permiso_ususario(	
-	id_permisos_ususario INT IDENTITY(1, 1) PRIMARY KEY
+	id_permiso_ususario INT IDENTITY(1, 1) PRIMARY KEY
 	,id_modulo INT 
 	,id_permiso INT
 	,activo BIT 
