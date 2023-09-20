@@ -15,10 +15,10 @@ CREATE TABLE accion(
 	,nombre VARCHAR(50) NOT NULL
 	,descripcion VARCHAR(MAX) NOT NULL
 
-)
+);
 
 CREATE TABLE permiso(
-	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
+	id_permiso INT IDENTITY(1, 1) PRIMARY KEY 
 	,nombre VARCHAR(50) NOT NULL
 	,id_modulo INT 
 	,accion INT

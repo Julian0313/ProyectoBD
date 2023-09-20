@@ -16,8 +16,7 @@ GO
 INSERT INTO accion
 		(nombre, descripcion)
 		VALUES
-		('Acceso Modulo','Permite acceso al modulo'),
-		('Acceso Modulo','Permite acceso al panel'),
+		('Acceso','Permite acceso al modulo'),
 		('Crear','Permite crear nuevos registros'),
 		('Leer','Permite consultar registros'),
 		('Editar','Permite editar registros existentes'),
