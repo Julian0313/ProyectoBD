@@ -19,5 +19,6 @@ INSERT INTO accion
 		('Acceso Modulo','Permite acceso al modulo'),
 		('Acceso Modulo','Permite acceso al panel'),
 		('Crear','Permite crear nuevos registros'),
+		('Leer','Permite consultar registros'),
 		('Editar','Permite editar registros existentes'),
 		('Eliminar','Permite eliminar registros existentes')
