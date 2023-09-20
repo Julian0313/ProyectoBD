@@ -107,16 +107,16 @@ CREATE TABLE persona (
 CREATE TABLE auditoria (
     id_auditoria INT IDENTITY(1,1) PRIMARY KEY
     ,fecha_evento DATETIME NOT NULL
-    ,tipo_evento VARCHAR(50) NOT NULL
+    ,fk_id_accion BIT FOREIGN KEY (fk_id_accion) REFERENCES accion(id_accion)
     ,nombre_tabla VARCHAR(100)
     ,id_resgustro_afectado INT
-    ,id_usuario INT
+    ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
     ,detalles VARCHAR(MAX)
     );
 
 CREATE TABLE historial_acceso_usuario (
     id_historial_acceso INT IDENTITY(1,1) PRIMARY KEY
-    ,id_usuario INT
+    ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
     ,fecha_inicio_sesion DATETIME NOT NULL
     ,direccion_ip VARCHAR(15)
     ,informacion_dispositivo VARCHAR(MAX)
