@@ -8,8 +8,16 @@ INSERT INTO rol
 		('Empl')
 GO
 INSERT INTO modulo
-		(abreviatura,
-		nombre)
+		(abreviatura, nombre)
 		VALUES
-		(USU,
-		Usuario)
+		('USU','Usuario'),
+		('PER','Permisos')
+GO
+INSERT INTO accion
+		(nombre, descripcion)
+		VALUES
+		('Acceso Modulo','Permite acceso al modulo'),
+		('Acceso Modulo','Permite acceso al panel'),
+		('Crear','Permite crear nuevos registros'),
+		('Editar','Permite editar registros existentes'),
+		('Eliminar','Permite eliminar registros existentes')

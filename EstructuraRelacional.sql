@@ -26,6 +26,8 @@ CREATE TABLE permiso(
 	id_permiso INT PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
+    ,fk_id_accion INT FOREIGN KEY (fk_id_accion) REFERENCES accion(id_accion)
+    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	);
 
 CREATE TABLE rol(

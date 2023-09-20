@@ -21,6 +21,8 @@ CREATE TABLE permiso(
 	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
 	,id_modulo INT 
+	,accion INT
+	,activo BIT 
 	);
 
 CREATE TABLE rol(
