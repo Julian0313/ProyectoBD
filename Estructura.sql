@@ -5,15 +5,22 @@ USE TiendaBdd
 GO
 
 CREATE TABLE modulo (
-    id_modulo VARCHAR PRIMARY KEY
+    id_modulo INT IDENTITY(1, 1) PRIMARY KEY
 	,abreviatura VARCHAR(50) NOT NULL
     ,nombre VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE permisos(
-	id_permiso INT PRIMARY KEY
+CREATE TABLE accion(
+	id_accion INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
-	,id_modulo INT 2
+	,descripcion VARCHAR(MAX) NOT NULL
+
+)
+
+CREATE TABLE permiso(
+	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
+	,nombre VARCHAR(50) NOT NULL
+	,id_modulo INT 
 	);
 
 CREATE TABLE rol(
@@ -29,30 +36,29 @@ CREATE TABLE panel(
 	,activo BIT 
 );
 
-CREATE TABLE permisos_panel(
+CREATE TABLE permiso_panel(
 	id_permisos_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,id_rol INT 
 	,id_modulo INT
 	,id_panel INT 
 	,activo BIT 
+	,accion INT
 );
 
-CREATE TABLE permisos_rol(
+CREATE TABLE permiso_rol(
 	id_rol_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,id_rol INT 
 	,id_permiso INT 
 	,id_modulo INT
-	,crear BIT 
-	,leer BIT 
-	,actualizar BIT 
-	,borrar BIT
+	,accion INT
 	);
 
-CREATE TABLE permisos_ususario(	
+CREATE TABLE permiso_ususario(	
 	id_permisos_ususario INT IDENTITY(1, 1) PRIMARY KEY
 	,id_modulo INT 
 	,id_permiso INT
 	,activo BIT 
+	,accion INT
 );
 
 CREATE TABLE usuario (
@@ -85,7 +91,7 @@ CREATE TABLE persona (
     ,primer_apellido VARCHAR(20) NOT NULL
     ,segundo_apellido VARCHAR(20)
     ,email VARCHAR(50) NOT NULL
-    ,direccion VARCHAR(50) NOT NULL
+    ,direccion VARCHAR(100) NOT NULL
     ,celular VARCHAR(20) NOT NULL
     ,fecha_creacion DATETIME NULL
     ,fecha_modificacion DATETIME NULL
@@ -103,28 +109,10 @@ CREATE TABLE auditoria (
     ,detalles VARCHAR(MAX)
 );
 
-CREATE TABLE historial_accesoUsuario (
+CREATE TABLE historial_acceso_usuario (
     id_historial_acceso INT IDENTITY(1,1) PRIMARY KEY
     ,id_usuario INT
     ,fecha_inicio_sesion DATETIME NOT NULL
     ,direccion_ip VARCHAR(15)
     ,informacion_dispositivo VARCHAR(MAX)
 );
-
-
--- Cosas por hacer
-
--- Seguimiento de auditoría: 
--- considere agregar una tabla de "seguimiento de auditoría" para registrar eventos o cambios importantes en la base de datos. Esta tabla puede almacenar información sobre quién accedió o modificó los datos, qué cambios se realizaron y cuándo ocurrieron.
-
--- Políticas de contraseña: 
--- implemente una tabla para almacenar políticas de contraseña, como longitud mínima, requisitos de complejidad y reglas de caducidad. Se puede hacer referencia a esta tabla al validar y administrar contraseñas de usuario.
-
--- Gestión de tokens: 
--- si su aplicación utiliza tokens para la autenticación (por ejemplo, JWT), considere crear una tabla para almacenar tokens de forma segura. Incluya detalles como el token, el usuario asociado, la fecha de vencimiento y cualquier otra información relevante.
-
--- Gestión de sesiones: 
--- Implemente una tabla para gestionar las sesiones de los usuarios de forma segura. Almacene ID de sesión, información de usuario asociada y marcas de tiempo de vencimiento para manejar la autenticación basada en sesiones.
-
--- Historial de acceso del usuario: 
--- cree una tabla para registrar el historial de inicio de sesión del usuario, capturando detalles como el usuario, la marca de tiempo de inicio de sesión, la dirección IP y la información del dispositivo. Esto puede ayudar a detectar sospechosos.
