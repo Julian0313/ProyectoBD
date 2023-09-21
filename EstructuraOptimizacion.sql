@@ -34,6 +34,7 @@ CREATE TABLE rol(
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(100) NOT NULL
+	,habilitado INT NOT NULL
 	,id_modulo INT 
 	,activo BIT 
 );
@@ -71,7 +72,7 @@ CREATE TABLE usuario (
 	,ver_segundo_factor BIT NOT NULL
 	,intentos INT NOT NULL
 	,bloqueo BIT NOT NULL
-	,fecha_bloqueo DATETIME NOT NULL
+	,fecha_bloqueo DATETIME NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
     ,id_rol INT 

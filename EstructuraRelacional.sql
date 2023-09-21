@@ -5,12 +5,12 @@ USE TiendaBdd
 GO
 
 CREATE TABLE estado(
-	id_estado INT PRIMARY KEY
+	id_estado INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
 	);
 
 CREATE TABLE modulo (
-    id_modulo INT PRIMARY KEY
+    id_modulo INT IDENTITY(1, 1) PRIMARY KEY
     ,abreviatura VARCHAR(50) NOT NULL
     ,nombre VARCHAR(50) NOT NULL
     );
@@ -22,7 +22,7 @@ CREATE TABLE accion(
     );
 
 CREATE TABLE permiso(
-	id_permiso INT PRIMARY KEY
+	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(50) NOT NULL
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
     ,fk_id_accion INT FOREIGN KEY (fk_id_accion) REFERENCES accion(id_accion)
@@ -38,6 +38,7 @@ CREATE TABLE rol(
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(100) NOT NULL
+    ,habilitado INT NOT NULL
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
     );
@@ -75,7 +76,7 @@ CREATE TABLE usuario (
 	,mostrar_segundo_fa BIT NOT NULL
 	,intento INT NOT NULL
 	,bloqueo BIT NOT NULL
-	,fecha_bloqueo DATETIME NOT NULL
+	,fecha_bloqueo DATETIME NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
     ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
