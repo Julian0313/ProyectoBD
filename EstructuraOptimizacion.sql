@@ -66,7 +66,7 @@ CREATE TABLE permiso_ususario(
 
 CREATE TABLE usuario (
     id_usuario INT IDENTITY(1, 1) PRIMARY KEY
-    ,usuario VARCHAR(50) NOT NULL
+    ,usuario VARCHAR(100) NOT NULL
     ,contrasena VARCHAR(50) NOT NULL
 	,segundo_factor BIT NOT NULL
 	,ver_segundo_factor BIT NOT NULL
@@ -93,7 +93,7 @@ CREATE TABLE persona (
     ,segundo_nombre VARCHAR(20)
     ,primer_apellido VARCHAR(20) NOT NULL
     ,segundo_apellido VARCHAR(20)
-    ,email VARCHAR(50) NOT NULL
+    ,email VARCHAR(100) NOT NULL
     ,direccion VARCHAR(100) NOT NULL
     ,celular VARCHAR(20) NOT NULL
     ,fecha_creacion DATETIME NULL
@@ -117,5 +117,15 @@ CREATE TABLE historial_acceso_usuario (
     ,id_usuario INT
     ,fecha_inicio_sesion DATETIME NOT NULL
     ,direccion_ip VARCHAR(15)
-    ,informacion_dispositivo VARCHAR(MAX)
+    ,informacion_dispositivo VARCHAR(200)
 );
+
+CREATE TABLE token (
+    id_token INT IDENTITY(1, 1) PRIMARY KEY
+    ,usuario INT
+    ,token_valor VARCHAR(100) NOT NULL
+    ,tipo VARCHAR(50) NOT NULL
+    ,fecha_creacion DATETIME NOT NULL
+    ,fecha_expiracion DATETIME NOT NULL
+);
+
