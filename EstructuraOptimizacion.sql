@@ -128,4 +128,12 @@ CREATE TABLE token (
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_expiracion DATETIME NOT NULL
 );
+CREATE TABLE sesion (
+    id_sesion INT IDENTITY(1, 1) PRIMARY KEY
+    ,usuario INT
+    ,token_sesion VARCHAR(100) NOT NULL
+    ,fecha_creacion DATETIME NOT NULL
+    ,fecha_expiracion DATETIME NOT NULL
+);
+
 
