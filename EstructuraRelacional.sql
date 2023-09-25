@@ -4,51 +4,55 @@ GO
 USE Prueba
 GO
 
-CREATE TABLE tb_estado(
+CREATE TABLE estado(
 	id_estado INT PRIMARY KEY
 	,descripcion VARCHAR(10) NOT NULL
 	);
-CREATE INDEX IX_estado_descripcion ON tb_estado(descripcion);
+CREATE INDEX IX_estado_descripcion ON estado(descripcion);
 
-CREATE TABLE tb_rol(
+CREATE TABLE rol(
 	id_rol INT IDENTITY(1, 1) PRIMARY KEY
-    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES tb_estado(id_estado)
+    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
     ,abreviatura VARCHAR(5) NOT NULL
 	,descripcion VARCHAR(50) NOT NULL	
 	);
+CREATE INDEX IX_modulo_abreviatura ON rol(abreviatura);
 
-CREATE TABLE tb_modulo (
+CREATE TABLE modulo (
     id_modulo INT IDENTITY(1, 1) PRIMARY KEY
-    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES tb_estado(id_estado)
+    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
     ,abreviatura VARCHAR(5) NOT NULL
     ,descripcion VARCHAR(30) NOT NULL
     );
-CREATE INDEX IX_modulo_abreviatura ONtb_ tb_modulo(abreviatura);
+CREATE INDEX IX_modulo_abreviatura ON modulo(abreviatura);
 
-CREATE TABLE tb_permiso(
+CREATE TABLE permiso(
 	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(30) NOT NULL
 	,descripcion VARCHAR(MAX) NOT NULL
     );
-CREATE INDEX IX_permiso_nombre ON tb_permiso(nombre);
+CREATE INDEX IX_permiso_nombre ON permiso(nombre);
 
-CREATE TABLE tb_permiso_modulo(
+CREATE TABLE permiso_modulo(
 	id_permiso_modulo INT IDENTITY(1, 1) PRIMARY KEY
-    ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES tb_rol(id_rol)
-	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES tb_modulo(id_modulo)
-    ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES tb_permiso(id_permiso)
-    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES tb_estado(id_estado)
+    ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
+	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
+    ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
+    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	);
-CREATE INDEX IX_permiso_modulo_modulo ON tb_permiso_modulo(fk_id_modulo);
-CREATE INDEX IX_permiso_modulo_permiso ON tb_permiso_modulo(fk_id_permiso);
-CREATE INDEX IX_permiso_modulo_estado ON tb_permiso_modulo(fk_id_estado);
-CREATE INDEX IX_modulo_abreviatura ON tb_rol(abreviatura);
+CREATE INDEX IX_permiso_modulo_modulo ON permiso_modulo(fk_id_modulo);
+CREATE INDEX IX_permiso_modulo_permiso ON permiso_modulo(fk_id_permiso);
+CREATE INDEX IX_permiso_modulo_estado ON permiso_modulo(fk_id_estado);
 
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
+    ,carpeta BIT NOT NULL
+    ,dependencia VARCHAR(50) NULL
 	,nombre VARCHAR(50) NOT NULL
+    ,interfaz VARCHAR(MAX) NOT NULL
+    ,ruta VARCHAR(MAX) NOT NULL 
     ,habilitado INT NOT NULL
     );
 CREATE INDEX IX_panel_modulo ON panel(fk_id_modulo);
@@ -59,7 +63,7 @@ CREATE TABLE permiso_rol(
 	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
 	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
-	);
+	);  
 
 CREATE TABLE permiso_panel(
 	id_permiso_panel INT IDENTITY(1, 1) PRIMARY KEY
@@ -102,7 +106,7 @@ CREATE TABLE persona (
     ,email VARCHAR(100) NOT NULL
     ,direccion VARCHAR(100) NOT NULL
     ,numero_contacto VARCHAR(10) NOT NULL
-    ,numero_contacto2 VARCHAR(10)  NULL
+    ,numero_contacto_alt VARCHAR(10)  NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
     );
@@ -117,7 +121,17 @@ CREATE TABLE historico_contrasena(
     );
 CREATE INDEX IX_historico_contrasena_usuario ON historico_contrasena(fk_id_usuario);
 
-CREATE TABLE auditoria (
+CREATE TABLE auditoria_usuario (
+    id_auditoria INT IDENTITY(1,1) PRIMARY KEY
+    ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
+    ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
+    ,fecha_evento DATETIME NOT NULL
+    ,id_resgistro_afectado INT
+    ,detalles VARCHAR(MAX)   
+    );
+CREATE INDEX IX_auditoria_usuario ON auditoria(fk_id_usuario);
+
+CREATE TABLE auditoria_Permiso (
     id_auditoria INT IDENTITY(1,1) PRIMARY KEY
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
@@ -126,8 +140,6 @@ CREATE TABLE auditoria (
     ,id_resgustro_afectado INT
     ,detalles VARCHAR(MAX)   
     );
-CREATE INDEX IX_auditoria_permiso ON auditoria(fk_id_permiso);
-CREATE INDEX IX_auditoria_usuario ON auditoria(fk_id_usuario);
 
 CREATE TABLE historial_acceso_usuario (
     id_historial_acceso INT IDENTITY(1,1) PRIMARY KEY
