@@ -32,16 +32,6 @@ INSERT INTO panel (fk_id_modulo, fk_id_estado, carpeta, dependencia, nombre, int
 	(1, 1, 0, 'Seguridad', 'Permisos por roles', 'xxxxxx', 'xxxxxxx',1),
 	(1, 1, 0, 'Seguridad', 'Permisos por usuarios', 'xxxxxx', 'xxxxxxx',1),
 
-INSERT INTO permiso_rol (fk_id_rol, fk_id_permiso, fk_id_estado) VALUES
-	(1, 2, 1),
-	(1, 3, 1),
-	(1, 4, 1),
-	(1, 5, 1),
-	(2, 2, 1),
-	(2, 3, 1),
-	(2, 4, 1),
-	(2, 5, 0);
-
 INSERT INTO permiso_panel (fk_id_rol, fk_id_panel,  fk_id_estado, fk_id_permiso) VALUES
 	(1, 1, 1, 1),
 	(2, 2, 1, 1),

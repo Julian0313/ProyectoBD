@@ -8,6 +8,7 @@ CREATE TABLE estado(
 	id_estado INT PRIMARY KEY
 	,descripcion VARCHAR(10) NOT NULL
 	);
+CREATE INDEX IX_estado_id ON estado(id_estado);
 CREATE INDEX IX_estado_descripcion ON estado(descripcion);
 
 CREATE TABLE rol(
@@ -16,7 +17,7 @@ CREATE TABLE rol(
     ,abreviatura VARCHAR(5) NOT NULL
 	,descripcion VARCHAR(50) NOT NULL	
 	);
-CREATE INDEX IX_modulo_abreviatura ON rol(abreviatura);
+CREATE INDEX IX_rol_fk_id_estado ON rol(fk_id_estado);
 
 CREATE TABLE modulo (
     id_modulo INT IDENTITY(1, 1) PRIMARY KEY
@@ -24,25 +25,22 @@ CREATE TABLE modulo (
     ,abreviatura VARCHAR(5) NOT NULL
     ,descripcion VARCHAR(30) NOT NULL
     );
-CREATE INDEX IX_modulo_abreviatura ON modulo(abreviatura);
+CREATE INDEX IX_modulo_fk_id_estado ON modulo(fk_id_estado);
 
 CREATE TABLE permiso(
 	id_permiso INT IDENTITY(1, 1) PRIMARY KEY
 	,nombre VARCHAR(30) NOT NULL
 	,descripcion VARCHAR(MAX) NOT NULL
     );
-CREATE INDEX IX_permiso_nombre ON permiso(nombre);
 
-CREATE TABLE permiso_modulo(
+CREATE TABLE rol_permiso_modulo(
 	id_permiso_modulo INT IDENTITY(1, 1) PRIMARY KEY
     ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
 	,fk_id_modulo INT FOREIGN KEY (fk_id_modulo) REFERENCES modulo(id_modulo)
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	);
-CREATE INDEX IX_permiso_modulo_modulo ON permiso_modulo(fk_id_modulo);
-CREATE INDEX IX_permiso_modulo_permiso ON permiso_modulo(fk_id_permiso);
-CREATE INDEX IX_permiso_modulo_estado ON permiso_modulo(fk_id_estado);
+CREATE INDEX IX_permiso_modulo_composite ON permiso_modulo(fk_id_rol, fk_id_modulo, fk_id_permiso, fk_id_estado);
 
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
@@ -55,27 +53,16 @@ CREATE TABLE panel(
     ,ruta VARCHAR(MAX) NOT NULL 
     ,habilitado INT NOT NULL
     );
-CREATE INDEX IX_panel_modulo ON panel(fk_id_modulo);
-CREATE INDEX IX_panel_estado ON panel(fk_id_estado);
+CREATE INDEX IX_panel_composite ON panel(fk_id_modulo, fk_id_estado);
 
-CREATE TABLE permiso_rol(
-	id_rol_permiso INT IDENTITY(1, 1) PRIMARY KEY
-	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
-	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
-    ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
-	);  
-
-CREATE TABLE permiso_panel(
+CREATE TABLE rol_permiso_panel(
 	id_permiso_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
 	,fk_id_panel INT FOREIGN KEY (fk_id_panel) REFERENCES panel(id_panel)
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     );
-CREATE INDEX IX_permiso_panel_rol ON permiso_panel(fk_id_rol);
-CREATE INDEX IX_permiso_panel_panel ON permiso_panel(fk_id_panel);
-CREATE INDEX IX_permiso_panel_estado ON permiso_panel(fk_id_estado);
-CREATE INDEX IX_permiso_panel_permiso ON permiso_panel(fk_id_permiso);
+CREATE INDEX IX_permiso_panel_composite ON permiso_panel(fk_id_rol, fk_id_panel, fk_id_estado, fk_id_permiso);
 
 CREATE TABLE usuario (
     id_usuario INT IDENTITY(1, 1) PRIMARY KEY
@@ -91,8 +78,8 @@ CREATE TABLE usuario (
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
     );
-CREATE INDEX IX_usuario_rol ON usuario(fk_id_rol);
-CREATE INDEX IX_usuario_estado ON usuario(fk_id_estado);
+CREATE INDEX IX_usuario_fk_id_rol ON usuario(fk_id_rol);
+CREATE INDEX IX_usuario_fk_id_estado ON usuario(fk_id_estado);
 
 CREATE TABLE persona (
     id_persona INT IDENTITY(1, 1) PRIMARY KEY
@@ -110,8 +97,8 @@ CREATE TABLE persona (
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_modificacion DATETIME NULL
     );
-CREATE INDEX IX_persona_estado ON persona(fk_id_estado);
-CREATE INDEX IX_persona_usuario ON persona(fk_id_usuario);
+CREATE INDEX IX_persona_fk_id_estado ON persona(fk_id_estado);
+CREATE INDEX IX_persona_fk_id_usuario ON persona(fk_id_usuario);
 
 CREATE TABLE historico_contrasena(
 	id_historico INT IDENTITY(1, 1) PRIMARY KEY
@@ -119,7 +106,7 @@ CREATE TABLE historico_contrasena(
 	,contrasena VARCHAR(50) NOT NULL
 	,fecha DATETIME NULL
     );
-CREATE INDEX IX_historico_contrasena_usuario ON historico_contrasena(fk_id_usuario);
+CREATE INDEX IX_historico_contrasena_fk_id_usuario ON historico_contrasena(fk_id_usuario);
 
 CREATE TABLE auditoria_usuario (
     id_auditoria INT IDENTITY(1,1) PRIMARY KEY
@@ -129,7 +116,8 @@ CREATE TABLE auditoria_usuario (
     ,id_resgistro_afectado INT
     ,detalles VARCHAR(MAX)   
     );
-CREATE INDEX IX_auditoria_usuario ON auditoria(fk_id_usuario);
+CREATE INDEX IX_auditoria_usuario_fk_id_permiso ON auditoria_usuario(fk_id_permiso);
+CREATE INDEX IX_auditoria_usuario_fk_id_usuario ON auditoria_usuario(fk_id_usuario);
 
 CREATE TABLE auditoria_Permiso (
     id_auditoria INT IDENTITY(1,1) PRIMARY KEY
@@ -140,6 +128,8 @@ CREATE TABLE auditoria_Permiso (
     ,id_resgustro_afectado INT
     ,detalles VARCHAR(MAX)   
     );
+CREATE INDEX IX_auditoria_Permiso_fk_id_permiso ON auditoria_Permiso(fk_id_permiso);
+CREATE INDEX IX_auditoria_Permiso_fk_id_usuario ON auditoria_Permiso(fk_id_usuario);
 
 CREATE TABLE historial_acceso_usuario (
     id_historial_acceso INT IDENTITY(1,1) PRIMARY KEY
@@ -148,7 +138,7 @@ CREATE TABLE historial_acceso_usuario (
     ,direccion_ip VARCHAR(15)
     ,informacion_dispositivo VARCHAR(200)
     );
-CREATE INDEX IX_historial_acceso_usuario ON historial_acceso_usuario(fk_id_usuario);
+CREATE INDEX IX_historial_acceso_usuario_fk_id_usuario ON historial_acceso_usuario(fk_id_usuario);
 
 CREATE TABLE token (
     id_token INT IDENTITY(1, 1) PRIMARY KEY,
@@ -158,7 +148,7 @@ CREATE TABLE token (
     fecha_creacion DATETIME NOT NULL,
     fecha_expiracion DATETIME NOT NULL
     );
-CREATE INDEX IX_token_usuario ON token(fk_id_usuario);
+CREATE INDEX IX_token_fk_id_usuario ON token(fk_id_usuario);
 
 CREATE TABLE sesion (
     id_sesion INT IDENTITY(1, 1) PRIMARY KEY
@@ -167,5 +157,5 @@ CREATE TABLE sesion (
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_expiracion DATETIME NOT NULL
     );
-CREATE INDEX IX_sesion_usuario ON sesion(fk_id_usuario);
+CREATE INDEX IX_sesion_fk_id_usuario ON sesion(fk_id_usuario);
 
