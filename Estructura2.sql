@@ -1,7 +1,7 @@
-CREATE DATABASE Prueba
+CREATE DATABASE Prueba1
 GO
 
-USE Prueba
+USE Prueba1
 GO
 
 CREATE TABLE estado(
@@ -40,7 +40,7 @@ CREATE TABLE rol_permiso_modulo(
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	);
-CREATE INDEX IX_permiso_modulo_composite ON permiso_modulo(fk_id_rol, fk_id_modulo, fk_id_permiso, fk_id_estado);
+CREATE INDEX IX_permiso_modulo_composite ON rol_permiso_modulo(fk_id_rol, fk_id_modulo, fk_id_permiso, fk_id_estado);
 
 CREATE TABLE panel(
 	id_panel INT IDENTITY(1, 1) PRIMARY KEY
@@ -62,7 +62,7 @@ CREATE TABLE rol_permiso_panel(
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     );
-CREATE INDEX IX_permiso_panel_composite ON permiso_panel(fk_id_rol, fk_id_panel, fk_id_estado, fk_id_permiso);
+CREATE INDEX IX_permiso_panel_composite ON rol_permiso_panel(fk_id_rol, fk_id_panel, fk_id_estado, fk_id_permiso);
 
 CREATE TABLE usuario (
     id_usuario INT IDENTITY(1, 1) PRIMARY KEY
