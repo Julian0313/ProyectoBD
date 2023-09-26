@@ -21,6 +21,8 @@ INSERT INTO permiso (nombre, descripcion) VALUES
 
 INSERT INTO rol_permiso_modulo (fk_id_rol, fk_id_modulo, fk_id_permiso, fk_id_estado) VALUES
 	(1, 1, 1, 1),
+	(1, 2, 1, 1),
+	(2, 1, 1, 1),
 	(2, 2, 1, 1);
 
 INSERT INTO panel (fk_id_modulo, fk_id_estado, carpeta, dependencia, nombre, interfaz, ruta, habilitado) VALUES 
@@ -30,12 +32,29 @@ INSERT INTO panel (fk_id_modulo, fk_id_estado, carpeta, dependencia, nombre, int
 	(1, 1, 0, 'Usuarios', 'Cambio contraseña', 'xxxxxx','xxxxxxx',1),
 	(1, 1, 0, 'Seguridad', 'Permisos', 'xxxxxx', 'xxxxxxx',1),
 	(1, 1, 0, 'Seguridad', 'Permisos por roles', 'xxxxxx', 'xxxxxxx',1),
-	(1, 1, 0, 'Seguridad', 'Permisos por usuarios', 'xxxxxx', 'xxxxxxx',1);
+	(1, 1, 0, 'Seguridad', 'Permisos por usuarios', 'xxxxxx', 'xxxxxxx',1),
+	(2, 1, 1, null, 'Reportes', 'xxxxxx','xxxxxxx',1),
+	(2, 1, 1, 'Reportes', 'Generar Reportes', 'xxxxxx','xxxxxxx',1);
 
 INSERT INTO rol_permiso_panel (fk_id_rol, fk_id_panel,  fk_id_estado, fk_id_permiso) VALUES
 	(1, 1, 1, 1),
+	(1, 2, 1, 1),
+	(1, 3, 1, 1),
+	(1, 4, 1, 1),
+	(1, 5, 1, 1),
+	(1, 6, 1, 1),
+	(1, 7, 1, 1),
+	(1, 8, 1, 1),
+	(1, 9, 1, 1),
+	(2, 1, 1, 1),
 	(2, 2, 1, 1),
-	(2, 1, 0, 1);
+	(2, 3, 0, 1),
+	(2, 4, 1, 1),
+	(2, 5, 0, 1),
+	(2, 6, 0, 1),
+	(2, 7, 0, 1),
+	(2, 8, 1, 1),
+	(2, 9, 1, 1);
 
 INSERT INTO usuario (fk_id_rol, fk_id_estado, usuario, contrasena, segundo_factor, mostrar_segundo_fa, intento, bloqueo, fecha_bloqueo, fecha_creacion, fecha_modificacion) VALUES
     (1, 1, 'admin@gmail.com', 'adminpassword123', 1, 0, 3, 0, NULL, GETDATE(), NULL),
