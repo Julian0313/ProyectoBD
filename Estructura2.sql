@@ -59,8 +59,8 @@ CREATE TABLE rol_permiso_panel(
 	id_permiso_panel INT IDENTITY(1, 1) PRIMARY KEY
 	,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
 	,fk_id_panel INT FOREIGN KEY (fk_id_panel) REFERENCES panel(id_panel)
-	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 	,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
+	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
     );
 CREATE INDEX IX_permiso_panel_composite ON rol_permiso_panel(fk_id_rol, fk_id_panel, fk_id_estado, fk_id_permiso);
 
@@ -68,7 +68,7 @@ CREATE TABLE usuario (
     id_usuario INT IDENTITY(1, 1) PRIMARY KEY
     ,fk_id_rol INT FOREIGN KEY (fk_id_rol) REFERENCES rol(id_rol)
     ,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
-    ,usuario VARCHAR(100) NOT NULL
+    ,usuario VARCHAR(100) UNIQUE NOT NULL
     ,contrasena VARCHAR(30) NOT NULL
 	,segundo_factor BIT NOT NULL
 	,mostrar_segundo_fa BIT NOT NULL
@@ -90,7 +90,7 @@ CREATE TABLE persona (
     ,segundo_nombre VARCHAR(30)
     ,primer_apellido VARCHAR(30) NOT NULL
     ,segundo_apellido VARCHAR(30)
-    ,email VARCHAR(100) NOT NULL
+    ,email VARCHAR(100) UNIQUE NOT NULL
     ,direccion VARCHAR(100) NOT NULL
     ,numero_contacto VARCHAR(10) NOT NULL
     ,numero_contacto_alt VARCHAR(10)  NULL
@@ -109,7 +109,7 @@ CREATE TABLE historico_contrasena(
 CREATE INDEX IX_historico_contrasena_fk_id_usuario ON historico_contrasena(fk_id_usuario);
 
 CREATE TABLE auditoria_usuario (
-    id_auditoria INT IDENTITY(1,1) PRIMARY KEY
+    id_auditoria_usuario INT IDENTITY(1,1) PRIMARY KEY
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
     ,fecha_evento DATETIME NOT NULL
@@ -120,13 +120,13 @@ CREATE INDEX IX_auditoria_usuario_fk_id_permiso ON auditoria_usuario(fk_id_permi
 CREATE INDEX IX_auditoria_usuario_fk_id_usuario ON auditoria_usuario(fk_id_usuario);
 
 CREATE TABLE auditoria_Permiso (
-    id_auditoria INT IDENTITY(1,1) PRIMARY KEY
+    id_auditoria_permiso INT IDENTITY(1,1) PRIMARY KEY
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
     ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
     ,fecha_evento DATETIME NOT NULL
     ,nombre_tabla VARCHAR(100)
-    ,id_resgustro_afectado INT
-    ,detalles VARCHAR(MAX)   
+    ,id_resgistro_afectado INT
+    ,detalles NVARCHAR(MAX)   
     );
 CREATE INDEX IX_auditoria_Permiso_fk_id_permiso ON auditoria_Permiso(fk_id_permiso);
 CREATE INDEX IX_auditoria_Permiso_fk_id_usuario ON auditoria_Permiso(fk_id_usuario);

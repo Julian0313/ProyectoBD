@@ -36,7 +36,7 @@ INSERT INTO panel (fk_id_modulo, fk_id_estado, carpeta, dependencia, nombre, int
 	(2, 1, 1, null, 'Reportes', 'xxxxxx','xxxxxxx',1),
 	(2, 1, 1, 'Reportes', 'Generar Reportes', 'xxxxxx','xxxxxxx',1);
 
-INSERT INTO rol_permiso_panel (fk_id_rol, fk_id_panel,  fk_id_estado, fk_id_permiso) VALUES
+INSERT INTO rol_permiso_panel (fk_id_rol, fk_id_panel, fk_id_permiso, fk_id_estado) VALUES
 	(1, 1, 1, 1),
 	(1, 2, 1, 1),
 	(1, 3, 1, 1),
@@ -48,11 +48,11 @@ INSERT INTO rol_permiso_panel (fk_id_rol, fk_id_panel,  fk_id_estado, fk_id_perm
 	(1, 9, 1, 1),
 	(2, 1, 1, 1),
 	(2, 2, 1, 1),
-	(2, 3, 0, 1),
+	(2, 3, 1, 0),
 	(2, 4, 1, 1),
-	(2, 5, 0, 1),
-	(2, 6, 0, 1),
-	(2, 7, 0, 1),
+	(2, 5, 1, 0),
+	(2, 6, 1, 0),
+	(2, 7, 1, 0),
 	(2, 8, 1, 1),
 	(2, 9, 1, 1);
 
