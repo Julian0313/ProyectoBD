@@ -64,43 +64,12 @@ INSERT INTO persona (fk_id_estado, fk_id_usuario, identificacion, primer_nombre,
     (1, 1, '123456789', 'John', 'Doe', 'admin@gmail.com', 'Calle falsa 123', '123456789', GETDATE()),
     (1, 2, '987654321', 'Jane', 'Smith', 'jane.smith@example.com', 'Cra falsa 1234', '987654321', GETDATE());
 
--- PERMISOS MODULO
-SELECT r.abreviatura AS Rol
-	,m.abreviatura AS Modulo 
-	,p.nombre AS Permiso
-	,e.descripcion AS Estado
-FROM rol_permiso_modulo AS per
-JOIN rol AS r ON per.fk_id_rol = r.id_rol
-JOIN modulo AS m ON per.fk_id_modulo = m.id_modulo
-JOIN permiso AS p ON per.fk_id_permiso = p.id_permiso
-JOIN estado AS e ON per.fk_id_estado = e.id_estado
-
--- PERMISOS PANEL
-SELECT r.abreviatura AS Rol
-	,p.nombre AS Panel 
-	,e.descripcion AS Estado
-	,per.nombre AS Permiso
- FROM rol_permiso_panel as rpp
-JOIN rol AS r ON rpp.fk_id_rol = r.id_rol
-JOIN panel AS p ON rpp.fk_id_panel = p.id_panel
-JOIN permiso AS per ON rpp.fk_id_permiso = per.id_permiso
-JOIN estado AS e ON rpp.fk_id_estado = e.id_estado
-
--- PERMISOS POR ROL 
-SELECT r.abreviatura AS Rol
-	,m.abreviatura AS Modulo 
-	,perm.nombre AS Permiso
-	,em.descripcion AS Estado
-	,p.nombre AS Panel 
-	,perp.nombre AS Permiso
-	,ep.descripcion AS Estado
-FROM rol as r
-JOIN rol_permiso_modulo AS rpm ON rpm.fk_id_rol = r.id_rol
-JOIN modulo AS m ON rpm.fk_id_modulo = m.id_modulo
-JOIN permiso AS perm ON rpm.fk_id_permiso = perm.id_permiso
-JOIN estado AS em ON rpm.fk_id_estado = em.id_estado
-JOIN rol_permiso_panel AS rpp ON rpp.fk_id_rol = r.id_rol
-JOIN panel AS p ON rpp.fk_id_panel = p.id_panel
-JOIN permiso AS perp ON rpp.fk_id_permiso = perp.id_permiso
-JOIN estado AS ep ON rpp.fk_id_estado = ep.id_estado
-
+INSERT INTO permiso_usuario (fk_id_usuario, fk_id_permiso, fk_id_estado) VALUES
+	(1,2,1),
+	(1,3,1),
+	(1,4,1),
+	(1,5,1),
+	(2,2,0),
+	(2,3,1),
+	(2,4,0),
+	(2,5,0);

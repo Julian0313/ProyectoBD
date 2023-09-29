@@ -61,3 +61,13 @@ INSERT INTO usuario (fk_id_rol, fk_id_estado, usuario, contrasena, segundo_facto
 INSERT INTO persona (fk_id_estado, fk_id_usuario, identificacion, primer_nombre, primer_apellido, email, direccion, numero_contacto, fecha_creacion) VALUES
     (1, 1, '123456789', 'John', 'Doe', 'admin@gmail.com', 'Calle falsa 123', '123456789', CURRENT_TIMESTAMP),
     (1, 2, '987654321', 'Jane', 'Smith', 'jane.smith@example.com', 'Cra falsa 1234', '987654321', CURRENT_TIMESTAMP);
+
+INSERT INTO permiso_usuario (fk_id_usuario, fk_id_permiso, fk_id_estado) VALUES
+	(1,2,1),
+	(1,3,1),
+	(1,4,1),
+	(1,5,1),
+	(2,2,0),
+	(2,3,1),
+	(2,4,0),
+	(2,5,0);

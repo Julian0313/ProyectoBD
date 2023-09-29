@@ -59,7 +59,7 @@ CREATE TABLE rol_permiso_panel (
 CREATE INDEX IX_permiso_panel_composite ON rol_permiso_panel(fk_id_rol, fk_id_panel, fk_id_estado, fk_id_permiso);
 
 CREATE TABLE usuario (
-    id_usuario SERIAL PRIMARY KEY,
+    id_usuario SERIAL PRIMARY KEY
     fk_id_rol INT REFERENCES rol(id_rol),
     fk_id_estado INT REFERENCES estado(id_estado),
     usuario VARCHAR(100) UNIQUE NOT NULL,
@@ -76,12 +76,12 @@ CREATE INDEX IX_usuario_fk_id_rol ON usuario(fk_id_rol);
 CREATE INDEX IX_usuario_fk_id_estado ON usuario(fk_id_estado);
 
 CREATE TABLE permiso_usuario (
-    id_permiso_usuario SERIAL PRIMARY,
+    id_permiso_usuario SERIAL PRIMARY KEY,
     fk_id_usuario INT REFERENCES usuario(id_usuario),
     fk_id_permiso INT REFERENCES permiso(id_permiso),
-    fk_id_estado INT REFERENCES estado(id_estado),
+    fk_id_estado INT REFERENCES estado(id_estado)
 );
-CREATE INDEX IX_permiso_usuario_composite ON permiso_usuario(id_usuario, fk_id_estado, fk_id_permiso);
+CREATE INDEX IX_permiso_usuario_composite ON permiso_usuario(fk_id_usuario, fk_id_estado, fk_id_permiso);
 
 CREATE TABLE persona (
     id_persona SERIAL PRIMARY KEY,

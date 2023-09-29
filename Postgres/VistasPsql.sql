@@ -63,3 +63,18 @@ JOIN
     permiso p ON per.fk_id_permiso = p.id_permiso
 JOIN
     estado e ON per.fk_id_estado = e.id_estado;
+
+CREATE OR REPLACE VIEW vw_permiso_usuario AS
+SELECT r.abreviatura AS Rol
+		,u.usuario AS Usuario
+		,p.nombre AS permiso
+		,e.descripcion AS estado
+FROM permiso_usuario AS pu
+JOIN 
+	permiso AS p ON pu.fk_id_permiso = p.id_permiso
+JOIN
+	usuario AS u ON pu.fk_id_usuario = u.id_usuario
+JOIN 
+	estado AS  e ON pu.fk_id_estado = e.id_estado
+JOIN
+	rol AS r ON u.fk_id_rol = r.id_rol;
