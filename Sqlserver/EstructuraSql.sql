@@ -84,10 +84,11 @@ CREATE INDEX IX_usuario_fk_id_estado ON usuario(fk_id_estado);
 CREATE TABLE permiso_usuario (
     id_permiso_usuario INT IDENTITY(1, 1) PRIMARY KEY
     ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
+    ,fk_id_panel INT FOREIGN KEY (fk_id_panel) REFERENCES panel(id_panel)
     ,fk_id_permiso INT FOREIGN KEY (fk_id_permiso) REFERENCES permiso(id_permiso)
 	,fk_id_estado INT FOREIGN KEY (fk_id_estado) REFERENCES estado(id_estado)
 );
-CREATE INDEX IX_permiso_usuario_composite ON permiso_usuario(fk_id_usuario, fk_id_estado, fk_id_permiso);
+CREATE INDEX IX_permiso_usuario_composite ON permiso_usuario(fk_id_usuario, fk_id_panel, fk_id_estado, fk_id_permiso);
 
 CREATE TABLE persona (
     id_persona INT IDENTITY(1, 1) PRIMARY KEY
@@ -150,7 +151,7 @@ CREATE INDEX IX_historial_acceso_usuario_fk_id_usuario ON historial_acceso_usuar
 
 CREATE TABLE token (
     id_token INT IDENTITY(1, 1) PRIMARY KEY,
-    fk_id_usuario INT FOREIGN KEY REFERENCES usuario(id_usuario),
+    fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario),
     token_valor VARCHAR(100) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     fecha_creacion DATETIME NOT NULL,
@@ -160,7 +161,7 @@ CREATE INDEX IX_token_fk_id_usuario ON token(fk_id_usuario);
 
 CREATE TABLE sesion (
     id_sesion INT IDENTITY(1, 1) PRIMARY KEY
-    ,fk_id_usuario INT FOREIGN KEY REFERENCES usuario(id_usuario)
+    ,fk_id_usuario INT FOREIGN KEY (fk_id_usuario) REFERENCES usuario(id_usuario)
     ,token_sesion VARCHAR(100) NOT NULL
     ,fecha_creacion DATETIME NOT NULL
     ,fecha_expiracion DATETIME NOT NULL
